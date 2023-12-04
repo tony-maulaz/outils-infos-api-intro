@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    container_name: db_api_person
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - .:/code
+    ports:
+      - 5432:5432
+
+  web:
+    image: node
+    container_name: api_person
+    tty: true
+    stdin_open: true
+    environment:
+      PGHOST: db_api_person
+      PGUSER: postgres
+      PGDATABASE: mydb
+      PGPASSWORD: password
+      PGPORT: 5432 
+    working_dir: /code
+    volumes:
+      - ./files:/code
+    ports:
+      - 3000:3000
